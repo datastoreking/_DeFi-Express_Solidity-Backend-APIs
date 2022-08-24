@@ -1,21 +1,8 @@
-const user_model = require("./models/user.model");
+const api_model = require("./models/api.model");
 
-exports.login = (req, res) => {
-    // console.log(req.headers['x-forwarded-for'] || req.socket.remoteAddress );
-    console.log("login")
-    user_model.login(req.body.wallet_address, (err, data) => {
-      if (err)
-            res.status(200).send({
-              message:
-                err.message || "An error occurred during login user."
-            });
-          else res.status(200).send(data);
-    });
-};
-
-exports.getUserInfo = (req, res) => {
-    console.log("get User information")
-	user_model.getUserInfo(req.params.wallet_address, (err, data) => {
+exports.recipt = (req, res) => {
+    console.log("recipt")
+    api_model.recipt(req.body.wallet_address, (err, data) => {
 		if (err) {
       if(err.kind == 'not_found') {
         res.status(200).send({
@@ -32,3 +19,51 @@ exports.getUserInfo = (req, res) => {
 		else res.status(200).send(data);
 	});
 };
+
+exports.gameover = (req, res) => {
+  console.log("game over");
+  api_model.gameover(req.body, (err, data) => {
+    if (err)
+		  res.status(500).send({
+			message:
+			  err.message || "An error occurred during update score"
+		  });
+		else res.status(200).send(data);
+  });
+};
+
+exports.getLeaderBoard = (req, res) => {
+  console.log("getLeaderBoard");
+  api_model.getLeaderBoard((err, data) => {
+    if (err)
+		  res.status(500).send({
+			message:
+			  err.message || "An error occurred during get LeaderBoard."
+		  });
+		else res.status(200).send(data);
+  });
+};
+
+exports.mint = (req, res) => {
+  console.log("mint");
+  api_model.mint(req.body, (err, data) => {
+    if (err)
+		  res.status(500).send({
+			message:
+			  err.message || "An error occurred during minting"
+		  });
+		else res.status(200).send(data);
+  });
+};
+
+// exports.play = (req, res) => {
+//   console.log("play");
+//   api_model.play(req.body, (err, data) => {
+//     if (err)
+// 		  res.status(500).send({
+// 			message:
+// 			  err.message || "An error occurred during playing"
+// 		  });
+// 		else res.status(200).send(data);
+//   });
+// };
